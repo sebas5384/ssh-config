@@ -211,7 +211,7 @@ exports.parse = function(str) {
   while (chr) {
     var param = option()
 
-    if (param === 'Host' || param === 'Match') {
+    if (param === '#HostId' || ((param === 'Host' || param === 'Match') && !config.hasOwnProperty('#HostId'))) {
       config = configWas
       config = config[hostsIndex++] = {}
     }
@@ -262,7 +262,7 @@ exports.stringify = function(config) {
     }
 
     for (p in section) {
-      if (p === 'Host' || p === 'Match') {
+      if (p === 'Host' || p === 'Match' || p === '#HostId') {
         lines.push(p + ' ' + section[p])
       } else {
         lines.push('  ' + p + ' ' + section[p])
