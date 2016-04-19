@@ -209,9 +209,23 @@ exports.parse = function(str) {
   var configWas = config
 
   while (chr) {
-    var param = option()
+    var newHostItem = false
 
-    if (param === '#HostId' || ((param === 'Host' || param === 'Match') && !config.hasOwnProperty('#HostId'))) {
+    if (param === '#HostId' || param === 'Host' || param === 'Match') {
+      newHostItem = true
+    }
+
+    // Except when #HostId is parent there's non Host declared yet.
+    if (config.hasOwnProperty('#HostId') && param === 'Host' && !config.hasOwnProperty('Host')) {
+      newHostItem = false
+    }
+
+    // Except when #HostId is parent there's non Match declared yet.
+    if (config.hasOwnProperty('#HostId') && param === 'Match' && !config.hasOwnProperty('Match')) {
+      newHostItem = false
+    }
+
+    if (newHostItem) {
       config = configWas
       config = config[hostsIndex++] = {}
     }
