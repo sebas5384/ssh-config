@@ -209,6 +209,7 @@ exports.parse = function(str) {
   var configWas = config
 
   while (chr) {
+    var param = option()
     var newHostItem = false
 
     if (param === '#HostId' || param === 'Host' || param === 'Match') {
